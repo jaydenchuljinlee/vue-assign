@@ -1,57 +1,46 @@
 <template>
-  <ul>
-    <li v-for="user in users" :class="{'clicked' : bindClass(user)}" @click="selectedUser(user)">
-      {{ user.name }}
-    </li>
-    <slot v-if="isSelected" name="userSlot" :userInfo="user"></slot>
-  </ul>
+  <div>
+    <ul>
+      <li v-for="user in $store.state.users" :class="{'clicked' : bindClass(user)}" @click="selectedUser(user)">
+        {{ user.name }}
+      </li>
+    </ul>
+    <div class="details" v-if="isSelected">
+      <address-info></address-info>
+      <company-info></company-info>
+    </div>
+  </div>
 </template>
-
 <script>
-  import axios from 'axios'
+  import AddressInfo from '@/components/AddressInfo'
+  import CompanyInfo from '@/components/CompanyInfo'
 
   export default {
     name: 'UserComponent',
     data() {
       return {
-        user: {},
-        users: [],
         isSelected: false,
-        currnetUser: {},
        }
     },
-    created() {// $el이 생성되고, data와 methods 등이 만들어진 다음. -> 돔이 생성되기 이전
-      axios.get('/api/users/')
-        .then((res) => {
-
-          let self = this
-
-          self.users = res.data
-        })
-        .catch((ex) => {
-          console.log(ex)
-
-        })
+    components: {
+      'address-info': AddressInfo,
+      'company-info': CompanyInfo,
     },
     methods: {
       selectedUser (u) {
-
+        
         let self = this
         
-        self.user = u
+        self.$store.state.user = u
         self.isSelected = true
-        self.currnetUser = u
-
-        self.$emit('isSelected')
       },
       bindClass(u) {
 
         let self = this
 
+        if (self.$store.state.user == undefined) return false
 
-        if (self.currnetUser == undefined) return false
-
-        if (u.name == self.currnetUser.name) {
+        if (u.name == self.$store.state.user.name) {
           return true
         } else {
           return false

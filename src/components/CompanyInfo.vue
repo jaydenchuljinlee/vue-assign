@@ -5,13 +5,13 @@
           <td>회사 정보</td>
         </tr>
         <tr>
-          <td>{{ company.bs }}</td>
+          <td>{{ $store.state.user.company.bs }}</td>
         </tr>
         <tr>
-          <td>{{ company.catchPhrase }}</td>
+          <td>{{ $store.state.user.company.catchPhrase }}</td>
         </tr>
         <tr>
-          <td>{{ company.name }}</td>
+          <td>{{ $store.state.user.company.name }}</td>
         </tr>
       </tbody>
     </table>

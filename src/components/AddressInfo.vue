@@ -1,24 +1,24 @@
-<template>
+<template >
     <table>
       <tbody>
         <tr>
           <td colspan="2">상세 주소 정보</td>
         </tr>
         <tr>
-          <td colspan="2">{{ addr.street }}</td>
+          <td colspan="2">{{ $store.state.user.address.street }}</td>
         </tr>
         <tr>
-          <td colspan="2">{{ addr.suite }}</td>
+          <td colspan="2">{{ $store.state.user.address.suite }}</td>
         </tr>
         <tr>
-          <td colspan="2">{{ addr.city }}</td>
+          <td colspan="2">{{ $store.state.user.address.city }}</td>
         </tr>
         <tr>
-          <td colspan="2">{{ addr.zipcode }}</td>
+          <td colspan="2">{{ $store.state.user.address.zipcode }}</td>
         </tr>
         <tr>
-          <td>{{ addr.geo.lat }}</td>
-          <td>{{ addr.geo.lng }}</td>
+          <td>{{ $store.state.user.address.geo.lat }}</td>
+          <td>{{ $store.state.user.address.geo.lng }}</td>
         </tr>
       </tbody>
     </table>
