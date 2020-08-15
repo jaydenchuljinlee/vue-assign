@@ -1,18 +1,10 @@
 <template>
   <div class="hello">
-    <contents>
-      <h1 slot="message">{{ msg }}</h1>
-      <h2 slot="title">Axios Test</h2>
-
-      <h3 slot="nameview">{{ selectedName }}</h3>
-      <user-component slot="userContents"></user-component>
-    </contents>
+    
   </div>
 </template>
 
 <script>
-  import Contents from '@/components/Contents'//슬롯으로 템플릿을 만든 컴포넌트입니다
-  import UserComponent from '@/components/UserComponent'//회원 정보 템플릿 컴포넌트입니다
   import axios from 'axios'
 
   export default {
@@ -25,21 +17,9 @@
       }
     },
     created() {// $el이 생성되고, data와 methods 등이 만들어진 다음. -> 돔이 생성되기 이전
-      axios.get('/api/users/')
-        .then((res) => {
-
-          let self = this
-           
-          self.$store.state.users = res.data
-        })
-        .catch((ex) => {
-          console.log(ex)
-
-        })
+      
     },
     components: {
-      'contents': Contents,
-      'user-component': UserComponent,
     }
   }
 </script>

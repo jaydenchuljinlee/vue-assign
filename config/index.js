@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'https://jsonplaceholder.typicode.com/',
+        target: 'http://localhost:8081/vueTest',
         changeOrigin: true,
         pathRewrite: {
-          '^/api':'https://jsonplaceholder.typicode.com/'
+          '^/api':''
         }
       }
     },
