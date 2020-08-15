@@ -16,9 +16,6 @@
         selected: false,//선택된 정보인지를 판단하는 변수
       }
     },
-    created() {// $el이 생성되고, data와 methods 등이 만들어진 다음. -> 돔이 생성되기 이전
-      
-    },
     components: {
     }
   }
