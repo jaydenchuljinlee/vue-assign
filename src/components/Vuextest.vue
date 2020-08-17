@@ -1,33 +1,43 @@
 <template>
   <div class="hello">
-    Parent counter : {{ $store.state.counter }} <br>
+    Parent counter : {{ getCounter }} <br>
     <button @click="addCounter">+</button>
     <button @click="subCounter">-</button>
-    <child v-bind:num="counter"></child>
+    <button @click="asyncIncrement({ by: 50, duration: 500})">Increment</button>
   </div>
 </template>
 
 <script>
 import Child from '@/components/Child'
+import { mapGetters,mapMutations,mapActions } from 'vuex' 
 
   export default {
     name: 'VuexTest',
     data() {
       return {
-        counter: 0,
+        
       }
     },
     components: {
       'child' : Child
     },
-    methods: {
-      addCounter() {
-        this.$store.state.counter++
-      },
-      subCounter() {
-        this.$store.state.counter--
+    computed: {
+      ...mapGetters({
+        getCounter : 'getCounter'
+      }),
+      doubleCounter() {
+        return this.$store.getters.doubleCounter
       }
-
+    },
+    methods: {
+      ...mapMutations({
+        addCounter: 'addCounter',
+        subCounter: 'subCounter'
+      }),
+      ...mapActions([
+        'asyncIncrement',
+        'asyncDecrement'
+      ]),
     }
   }
 </script>

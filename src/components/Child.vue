@@ -1,7 +1,7 @@
 <template>
   <div>
     <hr>
-    Child counter : {{ $store.state.counter }} <br>
+    Child counter : {{ $store.getters.getCounter }} <br>
     <button>+</button>
     <button>-</button>
   </div>
@@ -10,6 +10,10 @@
 <script>
 
   export default {
-    //props: ['num']
+    computed: {
+      doubleCounter() {
+        return this.$store.getters.doubleCounter
+      }
+    },
   }
 </script>
