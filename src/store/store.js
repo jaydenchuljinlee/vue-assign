@@ -2,8 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
+Vue.use(axios)
 
 export default new Vuex.Store({
   state: {
@@ -40,6 +42,26 @@ export default new Vuex.Store({
       return setTimeout(() => {
         context.commit('subCounter', payload.by)
       }, payload.duration)
+    },
+    axiosTest(context, payload) {
+
+        console.log(payload)
+
+        axios.get('/api',
+          JSON.stringify(payload.user))
+        .then((res) => {
+
+          console.log(res)
+
+        })
+        .catch((ex) => {
+
+          console.log(ex)
+        })
+
+
+
+
     }
   }
 
