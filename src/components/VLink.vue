@@ -1,22 +1,25 @@
 <template>
-  <a
-     v-bind:href="href"
-     v-bind:class="{ active: isActive }"
-     >
-    <slot></slot>
+  <a :bind:href="link">
+     <slot></slot>
   </a>
 </template>
 
 <script>
   export default {
-    props: {
-      href: String,
-      required: true
-    },
-    computed: {
-      isActive() {
-        return this.href == window.location.pathname
+    data() {
+      return {
+        link:'',
       }
+    },
+    props: [
+      'index',
+    ],
+    mounted() {
+      
+      let self = this
+      
+      self.link = "/detail?index="+self.index
+      
     },
 }
 </script>

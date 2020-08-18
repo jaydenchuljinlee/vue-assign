@@ -1,28 +1,24 @@
 <template>
   <main-layout>
-    <table>
-      <tbody>
-        <tr v-for="(diary,index) in getDiary">
-          <td><v-link :index=index>{{ diary.title }}</v-link></td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      {{ $store.getuser }}
+      {{ $store.getDiary.title }}
+    </div>
   </main-layout>
 </template>
 
 <script>
   import MainLayout from '@/layouts/Main'
-  import VLink from '@/components/VLink'
   import { mapGetters } from 'vuex'
 
   export default {
     data() {
       return {
-        diary: '',
+        index: 0,
       }
     },
     components: {
-      MainLayout,VLink
+      MainLayout
     },
     computed: {
       ...mapGetters({

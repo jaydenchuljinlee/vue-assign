@@ -21,6 +21,11 @@ const router = new Router({
       component: List
     },
     {
+      path: '/detail',
+      name: 'List',
+      component: List
+    },
+    {
       path: '*',
       name: 'NotFound',
       component: NotFound
@@ -30,39 +35,15 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
-  //to가 index 페이지일 때,
-  if (to.path == '/')
+  if ((store.state.name == '' && from.path == '/' && to.path != '/')
+    || (store.state.name != '' && from.path != '/' && to.path == '/'))
   {
-
-    //from이 index 페이지 일 때는 페이지 이동
-    if (from.path == '/')
-    {
-      next()
-    }
-
-    //from이 index 페이지가 아닌데, 로그인 되지 않았을 때,
-    if (store.state.name == '')
-    {
-      next(false)
-    }
-
-  //to가 index페이지가 아닐 때(이미 로그인 되어 있는 상태)
+    next(false)
   } else
   {
-
-    //로그인 되어 있는데, index 페이지로 이동하려할 때,
-    if (from.path == '/')
-    {
-
-      //
-      if (store.state.name != '')
-      {
-        next(false)
-      } 
-    }
+    next()
   }
-
-  //if (this.$store.state.name == '') next('/')
+  
 })
 
 export default router
