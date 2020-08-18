@@ -2,87 +2,73 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
 
 export default new Vuex.Store({
   state: {
-    user: {},
-    counter: 0
+    name: '',
+    inserted: 'jin',
+    diary: [
+      {
+        title: '1번',
+      },
+      {
+        title: '2번',
+      },
+      {
+        title: '3번',
+      },
+      {
+        title: '4번',
+      },
+      {
+        title: '5번',
+      },
+      {
+        title: '6번',
+      }],
   },
   //Getter
   getters: {
-    getCounter(state) {
-      return state.counter
+    getuser(state) {
+      return state.name
     },
-    doubleCounter(state) {
-      return state.counter*2
+    getInserted(state) {
+      return state.inserted
     },
-    getUser(state) {
-      return state.user
-    }
+    getDiary(state) {
+      return state.diary
+    },
   },
   //Mutation
   mutations: {
-    addCounter(state, payload) {//count 증가
-      return state.counter++
-    },
-    subCounter(state,payload) {//count 감소
-      return state.counter--
-    },
-    setUser(state, payload) {//user 셋팅
+    setUser(state, payload) {//count 증가
 
-      state.user = payload
-      
+      //console.log("mutations: " + payload)
+
+      state.name = payload
+    },
+    insertDiary(state, payload) {
+
+      console.log("mutations: " + payload)
+
+      state.diary = payload
     },
   },
   //Action
   actions: {
-    asyncIncrement(context, payload) {//action을 통한 증가
-      return setTimeout(() => {
+    asyncSetUser(context, payload) {//action을 통한 증가
 
-        console.log(context)
-        console.log(payload)
+      //console.log("actions: " + payload)
 
-        context.commit('addCounter', payload.by)
-      }, payload.duration)
+      context.commit('setUser', payload)
     },
-    asyncDecrement(context, payload) {//action을 통한 감소
-      return setTimeout(() => {
-        context.commit('subCounter', payload.by)
-      }, payload.duration)
+    asyncInsertDiary(context, payload) {//action을 통한 증가
+
+      console.log("actions: " + payload)
+
+      context.commit('insertDiary', payload)
     },
-    axiosTest(context, payload) {//user 비동기 호출
-
-      //user 객체 파싱
-      var param = {}
-
-      param.email   = payload.user.email
-      param.company = payload.user.company
-      param.address = payload.user.address
-      param.name    = payload.user.name
-
-      //header 설정
-      let config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-
-      //비동기 호출
-      axios.post('/api', JSON.stringify(param), config)
-        .then((res) => {
-
-          context.commit('setUser', res.data)
-
-        })
-        .catch((ex) => {
-
-          console.log(ex)
-        })
-    }
   }
 })
