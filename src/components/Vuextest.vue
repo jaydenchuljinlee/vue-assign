@@ -4,13 +4,12 @@
     <button @click="addCounter">+</button>
     <button @click="subCounter">-</button>
     <button @click="asyncIncrement({ by: 50, duration: 500})">Increment</button>
-    <button @click="axiosTest({ user: 'lee'})">AxiosTest</button>
+    <button @click="axiosTest({ user: user})">AxiosTest</button>
   </div>
 </template>
 
 <script>
 import Child from '@/components/Child'
-import axios from 'axios'
 import { mapGetters,mapMutations,mapActions } from 'vuex' 
 
   export default {
