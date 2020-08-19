@@ -42,14 +42,14 @@
           } else {
 
             //등록된 사용자가 아닐 때,
-            if (self.name != inserted) {
+            if (inserted.indexOf(self.name) == -1) {
 
               alert("등록된 사용자가 아닙니다!")
               return
             }
 
             self.$store.dispatch('asyncSetUser', self.name)
-            self.$router.push('/list')
+            self.$router.push('/diary/list')
             //console.log("getters: " + self.getUser)
           }
         },
@@ -63,12 +63,5 @@
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>

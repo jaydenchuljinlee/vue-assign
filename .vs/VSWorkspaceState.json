@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\config",
-    "\\src",
-    "\\src\\components",
-    "\\src\\router",
-    "\\src\\store"
+    ""
   ],
-  "SelectedNode": "\\src\\store\\store.js",
+  "SelectedNode": "\\config",
   "PreviewInSolutionExplorer": false
 }

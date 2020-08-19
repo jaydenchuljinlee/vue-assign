@@ -10,18 +10,17 @@
 <script>
   import Header from '@/layouts/Header'
   import Bottom from '@/layouts/Bottom'
-  import VLink from '@/components/VLink'
 
   export default {
       components: {
-        VLink,Header,Bottom,
+        Header,Bottom,
     }
   }
 </script>
 
 <style>
   .container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 15px 30px;
     background: #f9f7f5;

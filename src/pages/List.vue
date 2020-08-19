@@ -1,45 +1,108 @@
 <template>
   <main-layout>
-    <table>
-      <tbody>
-        <tr v-for="(diary,index) in getDiary">
-          <td><v-link :index=index>{{ diary.title }}</v-link></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="contents">
+      <div>
+        <button @click="pageMove('w')">쓰기</button>
+        <input v-model="searchVal" @keyup.enter="search" />
+        <button @click="reset">초기화</button>
+      </div>
+      <table>
+        <thead>
+        <th>날짜</th>
+        <th>제목</th>
+        <th>작성자</th>
+        </thead>
+        <tbody>
+          <tr v-if="diary.isShow" v-for="(diary,index) in getDiary">
+            <td>{{ diary.createdDate }}</td>
+            <td><a v-on:click="pageMove(index)">{{ diary.title }}</a></td>
+            <td>{{ diary.name }}</td>
+            <td><button @click="$store.dispatch('asyncDeleteDiary',index)">x</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </main-layout>
 </template>
 
 <script>
   import MainLayout from '@/layouts/Main'
-  import VLink from '@/components/VLink'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     data() {
       return {
-        diary: '',
+        searchVal: '',
+        copy: [],
+        pageNum: 0,
       }
     },
+    mounted() {
+
+      let self = this
+
+      self.copy = self.getDiary
+    },
     components: {
-      MainLayout,VLink
+      MainLayout
     },
     computed: {
       ...mapGetters({
         getUser: 'getuser',
         getDiary: 'getDiary',
       }),
+      
     },
+    actions: {
+      ...mapActions({
+        asyncDeleteDiary: 'asyncDeleteDiary',
+      }),
+    },
+    methods: {
+      pageMove(param) {
+
+        let self = this
+
+        if (typeof (param) == Number) {
+
+          self.pageNum = param
+
+          self.$router.push("/diary/" + self.pageNum)
+        } else {
+
+          if (param == 'w') {
+
+            self.$router.push("/diary/write")
+          }
+        }
+        
+      },
+      search() {
+
+        let self = this
+
+        const word = self.searchVal
+
+        self.copy.forEach((e) => {
+
+          if (e.title.indexOf(word) == -1) {
+            e.isShow = false
+          } else {
+            e.isShow = true
+          }
+        })
+
+      },
+      reset() {
+
+        let self = this
+
+        self.searchVal=''
+      }
+    }
   }
 </script>
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
+  
 </style>
