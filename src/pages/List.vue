@@ -39,7 +39,7 @@
         pageNum: 0,//이동할 다이어리 index
       }
     },
-    created() {
+    mounted() {
 
       let self = this
 
@@ -49,12 +49,11 @@
       //삭제 버튼 제어를 위한 forEach문
       self.copy.forEach((e) => {
 
-        console.log(e.name)
-        console.log(self.getUser)
-
         //자기 자신이 쓴 글이면 삭제 버튼이 보이게 flag 변수를 true로 만들어 줍니다.
         if (e.name == self.getUser) {
           e.isOwn = true
+        } else {
+          e.isOwn = false
         } 
       })
 
