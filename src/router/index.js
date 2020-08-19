@@ -14,7 +14,10 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      alias: '/login',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
       name: 'Login',
       component: Login
     },
@@ -44,13 +47,12 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 
   //로그인 안된 메인 페이지에서 이동이나
-  //로그인 상태에서 로그인페이지 이동을 제어 
-  if ((store.state.name == '' && (from.path == '/login' || from.path == '/') && (to.path != '/' && to.path != '/login'))
-    || (store.state.name != '' && (from.path != '/' || from.path != '/login') && (to.path == '/' && to.path == '/login')))
-  {
-    next(false)
-  } else
-  {
+  //로그인 상태에서 로그인페이지 이동을 제어
+  if (store.state.name != '' && to.path == '/login') {
+    next('/diary/list')
+  } else if (store.state.name == '' && !(to.path == '/' || to.path == '/login')) {
+    next('/login')
+  } else {
     next()
   }
   

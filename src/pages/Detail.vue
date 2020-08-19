@@ -1,9 +1,9 @@
 <template>
-  <main-layout>
+  <main-layout slot>
     <div>
       {{ $store.getuser }}
       {{ diary.title }}
-      <button @click="$store.dispatch('asyncDeleteDiary',index)">삭제</button>
+      <button v-if="diary.isOwn" @click="$store.dispatch('asyncDeleteDiary',index)">삭제</button>
     </div>
   </main-layout>
 </template>
@@ -15,18 +15,23 @@
   export default {
     data() {
       return {
-        index: 0,
-        diary: {},
+        index: 0,// 현재 다이어리의 index 번호
+        diary: {},//현재 다이어리 객체
       }
     },
-    created() {
+    mounted() {
 
       let self = this
-      let str = window.location.href
+      let url = window.location.href//현재 url
 
-      self.index = str.charAt(str.length - 1)
+      self.index = url.charAt(url.length - 1)//url index 번호
 
-      self.diary = self.$store.getters.getDiary[self.index]
+      self.diary = self.$store.getters.getDiary[self.index]// 다이어리 객체 생성
+
+      //삭제 버튼을 보여줄지 체크
+      if (self.getUser == self.diary.name) {
+        self.diary.isOwn = true
+      }
       
     },
     components: {
@@ -48,12 +53,4 @@
 </script>
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
 </style>

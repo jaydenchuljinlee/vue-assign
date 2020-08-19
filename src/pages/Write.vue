@@ -1,5 +1,5 @@
 <template>
-  <main-layout>
+  <main-layout slot>
     <div>
       <input v-model="diary.title" />
       <input v-model="diary.contents" />
@@ -64,7 +64,9 @@
     },
     actions: {
       ...mapActions({
-        asyncInsertDiary: 'asyncInsertDiary'
+        asyncInsertDiary: 'asyncInsertDiary',
+        asyncSetUser: 'asyncSetUser'
+
       }),
     }
   }

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations, mapActions } from 'vuex' 
+  import { mapGetters, mapActions } from 'vuex' 
 
   export default {
     data() {
@@ -31,16 +31,14 @@
         getUser: 'getuser',
       }),
     },
-
     methods: {
       logout() {
-
         let self = this
 
         self.seen = false
 
         self.$store.dispatch('asyncSetUser', '')
-        self.$router.push("/")
+        self.$router.push("/login")
       }
     },
     actions: {

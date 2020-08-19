@@ -1,13 +1,17 @@
 <template>
   <main-layout slot>
-    <input v-model="name" />
-    <button @click="checkLogin(getInserted)">로그인</button>
+    <span>등록자 정보 : {{ getInserted }}</span>
+    <br />
+    <div>
+      <input v-model="name" />
+      <button @click="checkLogin(getInserted)">로그인</button>
+    </div>
   </main-layout>
 </template>
 
 <script>
   import MainLayout from '@/layouts/Main'
-  import { mapGetters, mapMutations, mapActions } from 'vuex' 
+  import { mapGetters, mapActions } from 'vuex' 
 
   export default {
       data() {
@@ -24,15 +28,11 @@
           getUser: 'getuser',
         }),
       },
-      methods: {
-        ...mapMutations({
-          setUser: 'setUser'
-        }),
+    methods: {
+        //로그인 인증 메서드
         checkLogin(inserted) {
 
           let self = this
-
-          //console.log(self.name)
 
           //이름을 입력하지 않았을 때,
           if (self.name == '') {
@@ -48,9 +48,11 @@
               return
             }
 
+            //사용자 정보 등록
             self.$store.dispatch('asyncSetUser', self.name)
+            //등록 후 리스트 페이지 이동
             self.$router.push('/diary/list')
-            //console.log("getters: " + self.getUser)
+            
           }
         },
       },

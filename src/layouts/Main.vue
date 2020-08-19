@@ -2,18 +2,16 @@
   <div class="container">
     <Header></Header>
     <slot class="contents" name="contents"></slot>
-    <Bottom></Bottom>
     <slot></slot>
   </div>
 </template>
 
 <script>
   import Header from '@/layouts/Header'
-  import Bottom from '@/layouts/Bottom'
 
   export default {
       components: {
-        Header,Bottom,
+        Header,
     }
   }
 </script>

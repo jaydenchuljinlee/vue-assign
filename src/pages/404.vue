@@ -1,5 +1,5 @@
 <template>
-  <main-layout>
+  <main-layout slot>
     <p>Page not found</p>
   </main-layout>
 </template>
