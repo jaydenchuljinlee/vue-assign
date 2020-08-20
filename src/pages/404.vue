@@ -7,10 +7,12 @@
 <script>
   import MainLayout from '../layouts/Main.vue'
 
-export default {
-    components: {
+export default
+{
+    components:
+    {
       MainLayout
-  }
+    }
 }
 </script>
 

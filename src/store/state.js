@@ -1,5 +1,6 @@
 
-const state = {
+const state =
+{
   name: '',
   inserted: ['jin', 'iron', 'jayden'],
   diary: [
@@ -9,8 +10,9 @@ const state = {
       name: 'jin',
       createdDate: '2020년 8월 19일',
       updatedDate: '',
-      isShow: true,
-      isOwn:false,
+      isShow: true,//검색 키워드를 
+      isOwn: false,
+      hover: false,
     },
     {
       title: '파국이다.',
@@ -20,6 +22,7 @@ const state = {
       updatedDate: '',
       isShow: true,
       isOwn: false,
+      hover: false,
     },
     {
       title: '아저씨가 도깨비죠?',
@@ -29,6 +32,7 @@ const state = {
       updatedDate: '',
       isShow: true,
       isOwn: false,
+      hover: false,
     },
   ],
 }
