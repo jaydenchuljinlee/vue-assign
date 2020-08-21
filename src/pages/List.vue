@@ -1,6 +1,23 @@
 <template>
   <main-layout slot>
     <div class="contents py-3 px-5 rounded-pill">
+      <el-table class="mx-auto my-5 px-5 row-height-custom" :data="getDiary">
+        <el-table-column prop="createdDate"
+                         label="날짜">
+        </el-table-column>
+        <el-table-column prop="title"
+                         label="제목">
+        </el-table-column>
+        <el-table-column prop="name"
+                         label="작성자">
+        </el-table-column>
+        <el-table-column label="비고"
+                         @mouseover="diary.hover=true"
+                         @mouseleave="diary.hover=false">
+          <button class="btn btn-secondary btn-sm" v-if="diary.isOwn&&diary.hover" @click="$store.dispatch('asyncDeleteDiary',index)">x</button>
+          <span v-if="!diary.isOwn&&diary.hover">작성자가 아님</span>
+        </el-table-column>
+      </el-table>
       <table class="mx-auto my-5 px-5 table table-striped table-hover">
         <colgroup>
           <col width="20%" />
@@ -159,6 +176,8 @@
 </script>
 
 <style>
-  
+  .row-height-custom.el-table td {
+    padding: 8px 0;
+  }
 
 </style>

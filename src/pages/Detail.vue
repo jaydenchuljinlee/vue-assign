@@ -1,35 +1,27 @@
 <template>
   <main-layout slot>
-    <div class="contents p-3  rounded">
-      <div class="text-right my-3">
-        <button class="btn btn-outline-info btn-sm" v-if="diary.isOwn" @click="$store.dispatch('asyncDeleteDiary',index)">삭제</button>
-        <span v-if="!diary.isOwn">작성자만 삭제할 수 있습니다.</span>
-      </div>
-      <table class="table border">
-        <colgroup>
-          <col width="25%" />
-          <col width="25%" />
-          <col width="25%" />
-          <col width="25%" />
-        </colgroup>
-        <tbody>
-          <tr>
-            <td>작성일</td>
-            <td class="border">{{ diary.createdDate }}</td>
-            <td class="border">작성자</td>
-            <td>{{ diary.name }}</td>
-          </tr>
-          <tr>
-            <td class="border">제목</td>
-            <td colspan="3">{{ diary.title }}</td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <textarea class="form-control" rows="7" disabled>{{ diary.contents }}</textarea>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="contents p-3 rounded">
+        <el-row class="text-right my-3">
+          <el-col class="py-2" :span="24">
+            <button class="btn btn-outline-info btn-sm" v-if="diary.isOwn" @click="$store.dispatch('asyncDeleteDiary',index)">삭제</button>
+            <span v-if="!diary.isOwn">작성자만 삭제할 수 있습니다.</span>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col class="py-2" :span="6">작성일</el-col>
+          <el-col class="py-2" :span="6">{{ diary.createdDate }}</el-col>
+          <el-col class="py-2" :span="6">작성자</el-col>
+          <el-col class="py-2" :span="6">{{ diary.name }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col class="py-2" :span="6">제목</el-col>
+          <el-col class="py-2" :span="18">{{ diary.title }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col class="py-2" :span="24">
+            <textarea class="form-control" rows="7" disabled>{{ diary.contents }}</textarea>
+          </el-col>
+        </el-row>
     </div>
   </main-layout>
 </template>
@@ -103,4 +95,8 @@
 </script>
 
 <style>
+  .el-col {
+    border: 1px solid #dee2e6
+  }
+
 </style>
