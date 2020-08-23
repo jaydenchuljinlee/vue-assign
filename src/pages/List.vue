@@ -12,10 +12,17 @@
                          label="작성자">
         </el-table-column>
         <el-table-column label="비고"
-                         @mouseover="diary.hover=true"
-                         @mouseleave="diary.hover=false">
-          <button class="btn btn-secondary btn-sm" v-if="diary.isOwn&&diary.hover" @click="$store.dispatch('asyncDeleteDiary',index)">x</button>
-          <span v-if="!diary.isOwn&&diary.hover">작성자가 아님</span>
+                         @mouseover="hover=true"
+                         @mouseleave="hover=false"
+                         v-if="isOwn&&hover"
+                         @click="$store.dispatch('asyncDeleteDiary',index)">
+          <button class="btn btn-secondary btn-sm"  >x</button>
+        </el-table-column>
+        <el-table-column label="비고"
+                         @mouseover="hover=true"
+                         @mouseleave="hover=false"
+                         v-if="!isOwn&&hover">
+          <span >작성자가 아님</span>
         </el-table-column>
       </el-table>
       <table class="mx-auto my-5 px-5 table table-striped table-hover">
