@@ -1,7 +1,21 @@
 <template>
   <main-layout slot>
     <div class="contents py-3 px-5 rounded-pill">
-      <el-table class="mx-auto my-5 px-5 row-height-custom" :data="getDiary">
+      <el-row>
+        <el-col :span="16">
+          <el-button class="float-left" @click="pageMove('w')">쓰기</el-button>
+        </el-col>
+        <el-col :span="4">
+          <el-input class="rounded-pill" type="text" v-model="searchVal" @keyup.enter="search" placeholder="검색어를 입력해주세요.." />
+        </el-col>
+        <el-col :span="4">
+          <el-button @click="reset">초기화</el-button>
+        </el-col>
+      </el-row>
+      <el-table class="mx-auto my-5 px-5 row-height-custom"
+                :data="getDiary"
+                @cell-mouse-enter="cellMouseHandler"
+                @cell-mouse-leave="cellMouseHandler">
         <el-table-column prop="createdDate"
                          label="날짜">
         </el-table-column>
@@ -11,58 +25,17 @@
         <el-table-column prop="name"
                          label="작성자">
         </el-table-column>
-        <el-table-column label="비고"
-                         @mouseover="hover=true"
-                         @mouseleave="hover=false"
-                         v-if="isOwn&&hover"
-                         @click="$store.dispatch('asyncDeleteDiary',index)">
-          <button class="btn btn-secondary btn-sm"  >x</button>
-        </el-table-column>
-        <el-table-column label="비고"
-                         @mouseover="hover=true"
-                         @mouseleave="hover=false"
-                         v-if="!isOwn&&hover">
-          <span >작성자가 아님</span>
+        <el-table-column label="비고">
+          <template slot-scope="props">
+            <el-button class="btn btn-secondary btn-sm"
+                       v-if="props.row.isOwn&&props.row.hover"
+                       @click="$store.dispatch('asyncDeleteDiary',index)">
+              x
+            </el-button>
+            <span v-if="!props.row.isOwn&&props.row.hover">작성자가 아님</span>
+          </template>
         </el-table-column>
       </el-table>
-      <table class="mx-auto my-5 px-5 table table-striped table-hover">
-        <colgroup>
-          <col width="20%" />
-          <col width="60%" />
-          <col width="5%" />
-          <col width="15%" />
-        </colgroup>
-        <thead class="my-3 border-0">
-          <tr>
-            <td class="p-2" colspan="2">
-              <button class="btn btn-outline-info float-left btn-sm" @click="pageMove('w')">쓰기</button>
-            </td>
-            <td>
-              <input class="ml-5 rounded-pill" type="text" v-model="searchVal" @keyup.enter="search" placeholder="검색어를 입력해주세요.." />
-            </td>
-            <td>
-              <button class="btn btn-outline-info btn-sm float-left" @click="reset">초기화</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-2">날짜</td>
-            <td class="p-2">제목</td>
-            <td class="p-2">작성자</td>
-            <td class="p-2">비고</td>
-          </tr>
-        </thead>
-        <tbody class="my-3">
-          <tr v-if="diary.isShow" v-for="(diary,index) in getDiary">
-            <td class="p-2">{{ diary.createdDate }}</td>
-            <td class="p-2 text-primary" @click="pageMove(index)" style="cursor:pointer">{{ diary.title }}</td>
-            <td class="p-2">{{ diary.name }}</td>
-            <td class="p-2" @mouseover="diary.hover=true" @mouseleave="diary.hover=false">
-              <button class="btn btn-secondary btn-sm" v-if="diary.isOwn&&diary.hover" @click="$store.dispatch('asyncDeleteDiary',index)">x</button>
-              <span  v-if="!diary.isOwn&&diary.hover">작성자가 아님</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </main-layout>
 </template>
@@ -168,7 +141,6 @@
             e.isShow = true
           }
         })
-
       },
       //input을 비우는 메서드
       reset()
@@ -177,6 +149,20 @@
         let self = this
 
         self.searchVal=''
+      },
+      cellMouseHandler(row,column,cell,e)
+      {
+
+        let type = e.type
+
+        if (type === 'mouseenter')
+        {
+          row.hover = true
+          return
+        }
+
+        row.hover = false
+        return
       }
     }
   }
