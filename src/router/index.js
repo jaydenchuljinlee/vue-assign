@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store/store'
 import NotFound from '@/pages/404'
-import List from '@/pages/List'
+import Grid from '@/pages/Grid'
 import Login from '@/pages/Login'
 import Detail from '@/pages/Detail'
 import Write from '@/pages/Write'
@@ -24,13 +24,14 @@ const router = new Router
     },
     {//다이어리 리스트 페이지
       path: '/diary/list',
-      name: 'List',
-      component: List
+      name: 'Grid',
+      component: Grid
     },
-    {//다이어리 작성 페이지
+    {//다이어리 작성,수정 페이지
       path: '/diary/write',
       name: 'Write',
-      component: Write
+      component: Write,
+      props: true,
     },
     {//다이어리 상세정보 페이지
       path: '/diary/:index',

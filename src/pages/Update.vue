@@ -10,10 +10,8 @@
         </colgroup>
         <tbody>
           <tr>
-            <td v-if="!isUpdate">작성일</td>
-            <td v-else="isUpdate">수정일</td>
-            <td class="border" v-if="!isUpdate" v-model="diary.createdDate">{{ diary.createdDate }}</td>
-            <td class="border" v-else="isUpdate" v-model="diary.createdDate">{{ diary.createdDate }}</td>
+            <td>작성일</td>
+            <td class="border" v-model="diary.createdDate">{{ diary.createdDate }}</td>
             <td class="border">작성자</td>
             <td>{{ getUser }}</td>
           </tr>
@@ -53,21 +51,13 @@
           updatedDate: '',
           isShow: true,
         },
-        isUpdate: false,
       }
     },
-    created()
+    mounted()
     {
 
       let self = this
 
-      //let cur = Number(self.$route.path.substring(self.$route.path.lastIndexOf('/') + 1))
-
-      if (self.$route.params.param !== undefined)
-      {
-        self.isUpdate=true
-      }
-      
       self.diary.name= self.getUser
 
       let today = new Date()          // 대한민국 표준시
