@@ -1,31 +1,55 @@
 <template>
   <main-layout slot>
-    <div class="contents p-3 rounded">
-      <el-row class="text-right my-3">
-        <el-col class="py-2" :span="24">
-          <button class="btn btn-outline-info btn-sm" v-if="diary.isOwn" @click="$store.dispatch('asyncDeleteDiary',index)">삭제</button>
-          <span v-if="!diary.isOwn">작성자만 삭제할 수 있습니다.</span>
+    <el-row>
+      <span>{{ diary.createdDate }}</span>
+    </el-row>
+
+    <el-row class="detail-header">
+
+      <!-- 제목 -->
+
+      <el-col :span="12">
+        <span>{{ diary.title }}</span>
+        <span v-if="diary.weather==='sunny'"><i class="el-icon-sunny"></i></span>
+        <span v-if="diary.weather==='cloudy'"><i class="el-icon-cloudy"></i></span>
+        <span v-if="diary.weather==='rain'"><i class="el-icon-heavy-rain"></i></span>
+        <span v-if="diary.weather==='snow'"><i class="el-light-rainy"></i></span>
+        <span>{{ diary.feeling }}</span>
+      </el-col>
+
+      <!-- 버튼 -->
+
+      <el-col :span="12" class="detail-btn">
+        <el-col :span="2">
+          <el-button circle
+                     typeof="default"
+                     @click="pageMove('w')"><i class="el-icon-back"></i></el-button>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-col class="py-2" :span="6">작성일</el-col>
-        <el-col class="py-2" :span="6">{{ diary.createdDate }}</el-col>
-        <el-col class="py-2" :span="6">작성자</el-col>
-        <el-col class="py-2" :span="6">{{ diary.name }}</el-col>
-      </el-row>
-      <el-row>
-        <el-col class="py-2" :span="6">제목</el-col>
-        <el-col class="py-2" :span="18">{{ diary.title }}</el-col>
-      </el-row>
-      <el-row>
-        <el-col class="py-2" :span="24">
-          <textarea class="form-control" rows="7" disabled>{{ diary.contents }}</textarea>
+        <!-- 자기 자신일 때만 수정 버튼이 나옵니다. -->
+        <el-col :span="2"
+                v-if="diary.isOwn">
+          <el-button circle
+                     type="primary"
+                     @click="updateDiary"><i class="el-icon-edit"></i></el-button>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-button class="py-2" :span="6" @click="updateDiary">수정</el-button>
-      </el-row>
-    </div>
+        <!-- 자기 자신일 때만 삭제 버튼이 나옵니다. -->
+        <el-col :span="2"
+                v-if="diary.isOwn">
+          <el-button circle
+                     type="primary"
+                     @click="pageMove('w')"><i class="el-icon-delete"></i></el-button>
+        </el-col>
+      </el-col>
+    </el-row>
+
+    <!-- 내용 -->
+    <el-row>
+      <el-input type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4}"
+                value="diary.contents">
+      </el-input>
+    </el-row>
+
   </main-layout>
 </template>
 
@@ -69,7 +93,11 @@
       {
         let self= this
 
-        self.$router.push({ name: "Write", params: {"param": self.diary}}).catch(err => { console.log(err) })
+        let url = window.location.href//현재 url
+
+        self.index = url.charAt(url.length - 1)//url index 번호
+
+        self.$router.push({ name: "Write", params: { "param": self.diary, "index": self.index}}).catch(err => { console.log(err) })
       }
     },
     computed:
@@ -107,8 +135,23 @@
 </script>
 
 <style>
-  .el-col {
-    border: 1px solid #dee2e6
+
+  .el-row {
+    text-align:left;
+    display:flex;
+    align-items: center;
+    margin: 10px;
+  }
+
+  .detail-header {
+
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e3e5e7;
+  }
+
+  .detail-btn{
+    display: flex;
+    justify-content: flex-end;
   }
 
 </style>

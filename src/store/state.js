@@ -13,6 +13,8 @@ const state =
       isShow: true,//검색 키워드를 
       isOwn: false,
       hover: false,
+      weather: 'sunny',
+      feeling: '기쁨',
     },
     {
       title: '파국이다.',
@@ -23,6 +25,8 @@ const state =
       isShow: true,
       isOwn: false,
       hover: false,
+      weather: 'cloudy',
+      feeling: '슬픔',
     },
     {
       title: '아저씨가 도깨비죠?',
@@ -33,6 +37,8 @@ const state =
       isShow: true,
       isOwn: false,
       hover: false,
+      weather: 'snow',
+      feeling: '화남',
     },
   ],
 }

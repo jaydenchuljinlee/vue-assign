@@ -6,6 +6,10 @@ const mutations =
 
     state.name = payload
   },
+  updateDiary(state, payload) {//다이어리 요소 추가
+
+    state.diary[payload.index] = payload.diary
+  },
   insertDiary(state, payload)
   {//다이어리 요소 추가
 

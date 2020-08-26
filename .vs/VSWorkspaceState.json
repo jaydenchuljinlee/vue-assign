@@ -8,6 +8,6 @@
     "\\src\\router",
     "\\src\\store"
   ],
-  "SelectedNode": "\\src\\pages\\Detail.vue",
+  "SelectedNode": "\\src\\store\\mutations.js",
   "PreviewInSolutionExplorer": false
 }

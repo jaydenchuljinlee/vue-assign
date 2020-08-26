@@ -1,34 +1,72 @@
 <template>
   <main-layout slot>
-    <div class="contents py-3 px-5 rounded-pill">
-      <el-row>
-        <el-col :span="2">
-          <el-button class="float-left" @click="pageMove('w')">그리드</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button class="float-left" @click="pageMove('w')">카드</el-button>
-        </el-col>
-      </el-row>
-      <el-row class="card contents">
-        <el-col :span="7">
-          ddd
-        </el-col>
-        <el-col :span="7">
-          ddd
-        </el-col>
-        <el-col :span="7">
-          ddd
-        </el-col>
-        <el-col :span="7">
-          ddd
-        </el-col>
-      </el-row>
-      <el-row class="grid">
-        <el-col>
+    <el-row class="toggleButton">
+      <el-col :span="12">
+        <el-button v-bind:class="{gridActive :gridActive}"
+                   @click="toggleButton('grid')"><i class="el-icon-tickets"></i></el-button>
+        <el-button v-bind:class="{cardActive :cardActive}"
+                   @click="toggleButton('card')"><i class="el-icon-menu"></i></el-button>
+        <el-button circle
+                   type="primary"
+                   @click="pageMove('w')"><i class="el-icon-edit"></i></el-button>
+      </el-col>
+      <el-col
+              class="search-contents"
+              :span="12">
+        <el-input type="text" v-model="searchVal" @keyup.enter.native="search" placeholder="검색어를 입력해주세요.." />
+        <el-button @click="reset">초기화</el-button>
+      </el-col>
+    </el-row>
 
-        </el-col>
+    <el-row class="diary-contents">
+      <el-timeline class="grid"
+                   v-bind:class="{gridActive :gridActive}"
+                   style="display:none">
+        <el-timeline-item v-for="(diary, index) in getDiary"
+                          v-bind:key="index"
+                          v-bind:timestamp="diary.createdDate"
+                          v-if="diary.isShow"
+                          placement="top"
+                          @click.native="pageMove(index)">
+          <el-card class="grid-contents">
+            <span>
+              <h4>{{ diary.title }}</h4>
+              <p>{{ diary.contents }}</p>
+            </span>
+          </el-card>
+        </el-timeline-item>
+      </el-timeline>
+
+      <el-row v-bind:class="{cardActive :cardActive}"
+              class="card"
+              style="display:none">
+        
+          <el-card
+                   v-for="(diary, index) in copy"
+                   v-bind:key="index"
+                   v-if="diary.isShow"
+                   shadow="always">
+            <div @click="pageMove(index)">
+              <div slot="header" class="clearfix">
+                <span>{{ diary.createdDate }}</span>
+                <el-button style="float: right;
+                          padding: 3px 0"
+                           type="text"
+                           @click="$store.dispatch('asyncDeleteDiary',index)">x</el-button>
+              </div>
+              <div class="card-title">
+                <span>{{ diary.title }}</span>
+              </div>
+              <div class="card-contents">
+                <span>{{ diary.contents }}</span>
+              </div>
+            </div>
+          </el-card>
+        
       </el-row>
-    </div>
+
+    </el-row>
+
   </main-layout>
 </template>
 
@@ -44,6 +82,8 @@
         searchVal: '',//검색 input 값
         copy: [],// 현재 다이어리 배열의 복사본
         pageNum: 0,//이동할 다이어리 index
+        cardActive: false,
+        gridActive: true,
       }
     },
     mounted()
@@ -77,7 +117,7 @@
       ...mapGetters({
         getUser: 'getuser',
         getDiary: 'getDiary',
-      }),
+      })
     },
     actions:
     {
@@ -133,6 +173,8 @@
             e.isShow = true
           }
         })
+
+        console.log(self.copy)
       },
       //input을 비우는 메서드
       reset()
@@ -155,6 +197,21 @@
 
         row.hover = false
         return
+      },
+      toggleButton(what) {
+
+        let self = this
+
+        if (what === 'card')
+        {
+          self.cardActive = true
+          self.gridActive = false
+        } else
+        {
+          self.cardActive = false
+          self.gridActive = true
+        }
+
       }
     }
   }
@@ -165,7 +222,7 @@
     padding: 8px 0;
   }
 
-  .el-row.contents {
+  .el-row.diary-contents .el-row {
     display: flex;
     flex-flow: row wrap;
     overflow-y: scroll;
@@ -173,9 +230,77 @@
   }
 
   .card .el-col {
-    border: 1px solid black;
     margin: 1% 1% 1% 1%;
-    height: 100px;
   }
 
+  .cardActive, .gridActive {
+    display: block !important;
+
+  }
+
+  button.cardActive, button.gridActive {
+    background-color: #4ddff3b0;
+  }
+
+  .toggleButton.el-row {
+    text-align:left;
+  }
+
+  .toggleButton .el-col {
+    border:none;
+  }
+
+  .toggleButton.el-row > .el-button {
+    margin-left:0;
+    display: inline-block !important;
+  }
+
+  .el-timeline-item__timestamp.is-top {
+      text-align:left;
+  }
+
+  .card-title, .card-contents {
+      white-space: nowrap;
+      overflow: hidden;
+  }
+
+  .grid-contents:hover, .el-card:hover {
+    background-color: #ebeef5;
+  }
+
+  .el-card__header {
+      border:none;
+  }
+
+  .card .el-card {
+    flex: 1 1 calc(45.83333% );
+    display: inline-block;
+    min-width: 29.16667%;
+    max-width: calc(5.83333%);
+    margin: 10px
+  }
+
+  .toggleButton {
+    justify-content: space-between;
+    display:flex;
+    margin-left: 40px;
+    margin-bottom: 40px;
+  }
+
+  .search-contents {
+    display: flex;
+    justify-content:flex-end;
+  }
+
+  .search-contents > .el-input {
+    width: 45.83333%;
+  }
+
+  .search-contents > .el-button {
+    width: 15%;
+  }
+
+  .toggleButton > .el-col > .el-button, .toggleButton > .el-col > .el-input {
+    display: inline-block !important;
+  }
 </style>

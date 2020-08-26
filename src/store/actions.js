@@ -7,6 +7,13 @@ const actions =
 
     context.commit('setUser', payload)
   },
+  asyncUpdateDiary(context, payload) {//action을 통한 다이어리 요소 추가에 대한 커밋
+
+    context.commit('updateDiary', payload)
+
+    //요소 추가 후, 리스트 페이지로 이동
+    router.push("List").catch(err => { })
+  },
   asyncInsertDiary(context, payload)
   {//action을 통한 다이어리 요소 추가에 대한 커밋
 
